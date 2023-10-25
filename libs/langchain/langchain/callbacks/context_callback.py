@@ -167,9 +167,15 @@ class ContextCallbackHandler(BaseCallbackHandler):
 
     def on_chain_end(self, outputs: Dict[str, Any], **kwargs: Any) -> None:
         """Run when chain ends."""
+        # Parse the output
+        if "text" in outputs:
+            message = outputs["text"]
+        elif "function" in outputs:
+            message = str(outputs["function"])
+
         self.messages.append(
             self.message_model(
-                message=outputs["text"],
+                message=message,
                 role=self.message_role_model.ASSISTANT,
             )
         )
