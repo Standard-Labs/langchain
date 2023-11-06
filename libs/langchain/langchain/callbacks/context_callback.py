@@ -172,7 +172,13 @@ class ContextCallbackHandler(BaseCallbackHandler):
             message = outputs["text"]
         elif "function" in outputs:
             message = str(outputs["function"])
+        else: 
+            message = None
 
+        # If there's nothing to log, don't
+        if not message:
+            return 
+            
         self.messages.append(
             self.message_model(
                 message=message,
